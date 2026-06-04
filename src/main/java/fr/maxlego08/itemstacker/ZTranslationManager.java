@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import fr.maxlego08.itemstacker.api.TranslationManager;
 import fr.maxlego08.itemstacker.save.Config;
-import org.bukkit.Bukkit;
+import fr.maxlego08.itemstacker.zcore.utils.scheduler.Scheduler;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -63,7 +63,7 @@ public class ZTranslationManager implements TranslationManager {
 
         folder.mkdirs();
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        Scheduler.runAsync(plugin, () -> {
             try {
                 List<String> files = fetchFileList();
                 downloadFiles(files, folder);
@@ -134,7 +134,7 @@ public class ZTranslationManager implements TranslationManager {
 
         for (String fileName : files) {
             String fileUrl = BASE_URL + fileName;
-            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+            Scheduler.runAsync(this.plugin, () -> {
                 try {
                     downloadFile(fileUrl, Paths.get(folder.getAbsolutePath(), fileName.replace("_", "-")).toString());
                 } catch (IOException e) {

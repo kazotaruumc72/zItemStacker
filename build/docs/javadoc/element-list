@@ -16,5 +16,6 @@ fr.maxlego08.itemstacker.zcore.utils.map
 fr.maxlego08.itemstacker.zcore.utils.nms
 fr.maxlego08.itemstacker.zcore.utils.players
 fr.maxlego08.itemstacker.zcore.utils.plugins
+fr.maxlego08.itemstacker.zcore.utils.scheduler
 fr.maxlego08.itemstacker.zcore.utils.storage
 fr.maxlego08.itemstacker.zcore.utils.yaml

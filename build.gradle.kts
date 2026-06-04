@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "fr.maxlego08.itemstacker"
-version = "2.0.1"
+version = "26.1.2"
 
 extra.set("targetFolder", file("target/"))
 extra.set("apiFolder", file("target-api/"))
@@ -27,12 +27,16 @@ allprojects {
         mavenCentral()
 
         maven(url = "https://jitpack.io")
+        maven(url = "https://repo.papermc.io/repository/maven-public/")
         maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
         maven(url = "https://libraries.minecraft.net/")
     }
 
     java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(25))
+        }
         withSourcesJar()
         withJavadocJar()
     }
@@ -80,7 +84,7 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
         compileOnly("com.mojang:authlib:1.5.26")
         compileOnly("me.clip:placeholderapi:2.11.6")
     }
@@ -111,7 +115,7 @@ tasks {
     }
 
     compileJava {
-        options.release = 21
+        options.release = 25
     }
 
     processResources {

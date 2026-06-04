@@ -2,13 +2,13 @@ package fr.maxlego08.itemstacker.zcore.utils.plugins;
 
 import fr.maxlego08.itemstacker.zcore.enums.Message;
 import fr.maxlego08.itemstacker.zcore.logger.Logger;
+import fr.maxlego08.itemstacker.zcore.utils.scheduler.Scheduler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -72,14 +72,11 @@ public class VersionChecker implements Listener {
     public void onConnect(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         if (!isLastVersion && event.getPlayer().hasPermission("zplugin.notifs")) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    String prefix = Message.PREFIX.getMessage();
-                    player.sendMessage(prefix + "§cYou do not use the latest version of the plugin! Thank you for taking the latest version to avoid any risk of problem!");
-                    player.sendMessage(prefix + "§fDownload plugin here: §a" + String.format(URL_RESOURCE, pluginID));
-                }
-            }.runTaskLater(plugin, 20 * 2);
+            Scheduler.runEntityLater(plugin, player, () -> {
+                String prefix = Message.PREFIX.getMessage();
+                player.sendMessage(prefix + "§cYou do not use the latest version of the plugin! Thank you for taking the latest version to avoid any risk of problem!");
+                player.sendMessage(prefix + "§fDownload plugin here: §a" + String.format(URL_RESOURCE, pluginID));
+            }, 20 * 2);
         }
     }
 
@@ -89,7 +86,7 @@ public class VersionChecker implements Listener {
      * @param consumer - Do something after
      */
     public void getVersion(Consumer<String> consumer) {
-        Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+        Scheduler.runAsync(this.plugin, () -> {
             final String apiURL = String.format(URL_API, this.pluginID);
             try {
                 URL url = URI.create(apiURL).toURL();

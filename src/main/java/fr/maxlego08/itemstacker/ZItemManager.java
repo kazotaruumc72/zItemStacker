@@ -199,7 +199,7 @@ public class ZItemManager extends ZUtils implements ItemManager {
     private Optional<StackedItem> getNearbyItems(Location location, ItemStack itemStack) {
 
         World world = location.getWorld();
-        Optional<Entity> optional = world.getNearbyEntities(location, Config.distanceOnDrop, Config.distanceOnDrop, Config.distanceOnDrop).parallelStream().filter(entity -> entity instanceof Item && ((Item) entity).getItemStack().isSimilar(itemStack)).findFirst();
+        Optional<Entity> optional = world.getNearbyEntities(location, Config.distanceOnDrop, Config.distanceOnDrop, Config.distanceOnDrop).stream().filter(entity -> entity instanceof Item && ((Item) entity).getItemStack().isSimilar(itemStack)).findFirst();
 
         return optional.map(entity -> getItem((Item) entity));
     }
